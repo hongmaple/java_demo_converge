@@ -60,9 +60,9 @@ public class JdDownloader implements Downloader {
             try {
                 driver.get(indexUrl);
                 driver.findElementByCssSelector("#key").sendKeys("手机");
-                Thread.sleep(1000);
+                Thread.sleep(2000);
                 driver.findElementByCssSelector(".button").click();
-                Thread.sleep(1000);
+                Thread.sleep(2000);
 
                 // 页面滚动到下方
                 Integer start = 0;
@@ -74,7 +74,7 @@ public class JdDownloader implements Downloader {
                     }
                     String scriptStr = "window.scrollTo("+ start + ","+ end +")";
                     driver.executeScript(scriptStr);
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                     start+=500;
                     end+=500;
                 }
@@ -93,9 +93,9 @@ public class JdDownloader implements Downloader {
             try {
                 driver.get(indexUrl);
                 driver.findElementByCssSelector("#key").sendKeys("手机");
-                Thread.sleep(1000);
+                Thread.sleep(2000);
                 driver.findElementByCssSelector(".button").click();
-                Thread.sleep(1000);
+                Thread.sleep(2000);
 
 
                 // 这里再去点击分页 3
@@ -103,7 +103,7 @@ public class JdDownloader implements Downloader {
                 for (int i = 1; i < Integer.valueOf(pageNum); i++) {
                     // 点击翻页
                     driver.findElementByCssSelector(".fp-next").click();
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 }
 
 
@@ -134,7 +134,6 @@ public class JdDownloader implements Downloader {
         // 3. 详情页下载
         if ("detail".equals(request.getExtra("level"))){
             driver.get(request.getUrl());
-
             String htmlStr = driver.getPageSource();
             return createPage(htmlStr,driver.getCurrentUrl(),"detail",request.getExtra("pageNum").toString());
         }

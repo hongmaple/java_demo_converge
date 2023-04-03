@@ -1,6 +1,7 @@
 package com.mask.ssm.task.compoent;
 
 import com.mask.ssm.task.pojo.Item;
+import com.mask.ssm.task.pojo.Store;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 import us.codecraft.webmagic.Page;
@@ -49,17 +50,42 @@ public class JdPageProcessor implements PageProcessor {
         String pic = "https:"+html.$("#spec-img").xpath("///@src").get();
         String url = "https:"+html.$("div.master .p-name a").xpath("///@href").get();
         String sku = html.$("a.notice.J-notify-sale").xpath("///@data-sku").get();
+        // 规格
+        String standard = html.css("div#choose-attr-2 div.selected", "data-value").toString();
+
+        //String haoping = html.css("div.small > ul > li:nth-child(3) > a > em", "text").toString();
+        // 店铺名称
+        String storeName = html.css("div.popbox-inner a", "text").toString();
+        //店铺url
+        String storeUrl = "https:"+html.$("div.popbox-inner a").xpath("///@href").get();
+        Store store = new Store();
+        store.setStoreName(storeName);
+        store.setStoreUrl(storeUrl);
+
+        String classify1 = html.css("div.crumb > div:nth-child(1) a","text").toString();
+
+        String classify2 = html.css("div.crumb > div:nth-child(3) a","text").toString();
+
+        String classify3 = html.css("div.crumb > div:nth-child(5) a","text").toString();
 
         Item item = new Item();
-        item.setTitle(title);
-        item.setPic(pic);
-        item.setPrice(Float.valueOf(priceStr));
-        item.setUrl(url);
-        item.setUpdated(new Date());
-        item.setSku(StringUtils.isNotBlank(sku)?Long.valueOf(sku) : null);
-
+        try {
+            item.setTitle(title);
+            item.setPic(pic);
+            item.setPrice(Float.valueOf(priceStr));
+            item.setUrl(url);
+            item.setUpdated(new Date());
+            item.setSku(StringUtils.isNotBlank(sku)?Long.valueOf(sku) : null);
+            item.setStandard(standard);
+        } catch (NumberFormatException e) {
+            System.out.println(e);
+        }
         // 单条数据塞入
         page.putField("item", item);
+        page.putField("store", store);
+        page.putField("classify1", classify1);
+        page.putField("classify2", classify2);
+        page.putField("classify3", classify3);
     }
 
     /**
@@ -79,7 +105,7 @@ public class JdPageProcessor implements PageProcessor {
 
             Item item = new Item();
             item.setSku(Long.valueOf(sku));
-            item.setSpu(StringUtils.isNotBlank(spu) ? Long.valueOf(spu) : 0);
+            item.setSpu(StringUtils.isNotBlank(spu) ? Long.parseLong(spu) : 0);
             item.setCreated(new Date());
             itemList.add(item);
 

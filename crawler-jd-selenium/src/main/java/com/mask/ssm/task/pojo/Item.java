@@ -14,6 +14,10 @@ import java.util.Date;
 public class Item {
     @TableId(value = "id",type = IdType.AUTO)
     private Long id;
+    @TableField("cid")
+    private Long cid;
+    @TableField("store_id")
+    private Long storeId;
     @TableField("spu")
     private Long spu;
     @TableField("sku")
@@ -26,6 +30,24 @@ public class Item {
     private String pic;
     @TableField("url")
     private String url;
+    @TableField("standard")
+    private String standard;
+    @TableField("show_count_str")
+    private String showCountStr;
+    @TableField("comment_count_str")
+    private String commentCountStr;
+    @TableField("default_good_countStr")
+    private String defaultGoodCountStr;
+    @TableField("good_count_str")
+    private String goodCountStr;
+    @TableField("after_count_str")
+    private String afterCountStr;
+    @TableField("video_count_str")
+    private String videoCountStr;
+    @TableField("good_rate_show")
+    private String goodRateShow;
+    @TableField("poor_count_str")
+    private String poorCountStr;
     @TableField("created")
     private Date created;
     @TableField("updated")
